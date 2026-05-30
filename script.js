@@ -1,86 +1,76 @@
 // ===== TrumpTrades — vanilla JS, no build step =====
-// Live crypto prices come straight from the public CoinGecko API (CORS-enabled,
-// no API key). Stocks have no free key-less browser feed, so they link out to a
-// live quote instead of showing a number that could silently go stale.
+// Tracks stocks Donald Trump has recently bought (per public disclosures) and/or
+// publicly talked up. Live price, today's % change and an intraday series for the
+// mini graphs come from Yahoo Finance's public chart endpoint, fetched through a
+// free CORS proxy so it works straight from the browser with no API key.
 
 // --- The board data -------------------------------------------------------
-// `cgId` = CoinGecko coin id (crypto only). `link` = where to see a live quote.
+// status: "praised" = he publicly talked it up | "portfolio" = appears in his buys
 const ASSETS = [
   {
-    name: "Official Trump",
-    symbol: "TRUMP",
-    type: "crypto",
-    cgId: "official-trump",
-    tagline: "His own memecoin",
-    connection: "A Solana memecoin Trump personally launched and promoted on his own social accounts in Jan 2025.",
-    link: "https://www.coingecko.com/en/coins/official-trump",
+    name: "Dell Technologies", symbol: "DELL", status: "praised",
+    tagline: "“Go out and buy a Dell”",
+    connection: "Disclosed buying $1M–$5M on Feb 10, 2026, then repeatedly urged people to “go out and buy a Dell.” Shares jumped ~40% after a $9.7B Pentagon software contract.",
+    source: "https://www.cnbc.com/2026/05/27/dell-dod-pentagon-software-deal-digital-infrastructure-trump.html",
+    sourceName: "CNBC",
   },
   {
-    name: "Melania Meme",
-    symbol: "MELANIA",
-    type: "crypto",
-    cgId: "melania-meme",
-    tagline: "The First Lady coin",
-    connection: "Launched in Jan 2025 and tied to the Trump family / Melania Trump branding.",
-    link: "https://www.coingecko.com/en/coins/melania-meme",
+    name: "Apple", symbol: "AAPL", status: "praised",
+    tagline: "Praised the “$650 billion” pledge",
+    connection: "Accumulated as much as ~$7.2M of Apple in March 2026 and publicly praised it — “Apple spending $650 billion on new plants all over the United States.”",
+    source: "https://www.washingtonexaminer.com/news/white-house/4583562/trump-praised-companies-within-days-of-buying-their-stock/",
+    sourceName: "Washington Examiner",
   },
   {
-    name: "World Liberty Financial",
-    symbol: "WLFI",
-    type: "crypto",
-    cgId: "world-liberty-financial",
-    tagline: "Trump-family DeFi venture",
-    connection: "A crypto / DeFi project publicly backed by and branded around the Trump family.",
-    link: "https://www.coingecko.com/en/coins/world-liberty-financial",
+    name: "Palantir", symbol: "PLTR", status: "praised",
+    tagline: "Touted on Truth Social",
+    connection: "Bought shares weeks before publicly touting the AI-software maker on Truth Social, disclosures show.",
+    source: "https://www.cnbc.com/2026/05/15/trump-palantir-stock-truth-social.html",
+    sourceName: "CNBC",
   },
   {
-    name: "USD1",
-    symbol: "USD1",
-    type: "crypto",
-    cgId: "usd1-world-liberty-financial",
-    tagline: "WLFI's stablecoin",
-    connection: "The U.S.-dollar stablecoin issued by World Liberty Financial, the Trump-family venture.",
-    link: "https://www.coingecko.com/en/coins/usd1-world-liberty-financial",
+    name: "NVIDIA", symbol: "NVDA", status: "portfolio",
+    tagline: "Added in Q1 2026",
+    connection: "Bought $1M–$5M of the AI-chip leader in February 2026 as he revamped his portfolio toward AI names.",
+    source: "https://www.investing.com/news/stock-market-news/trump-revamps-stock-portfolio-adding-nvidia-and-other-ai-names-4689461",
+    sourceName: "Investing.com",
   },
   {
-    name: "Bitcoin",
-    symbol: "BTC",
-    type: "crypto",
-    cgId: "bitcoin",
-    tagline: "Publicly endorsed",
-    connection: "Trump has publicly championed Bitcoin and signed a 2025 executive order on a U.S. strategic Bitcoin reserve.",
-    link: "https://www.coingecko.com/en/coins/bitcoin",
+    name: "Oracle", symbol: "ORCL", status: "portfolio",
+    tagline: "Q1 2026 buy",
+    connection: "Among the tech names Trump bought in Q1 2026; Oracle is central to the Trump-backed “Stargate” AI infrastructure push.",
+    source: "https://www.cnbc.com/2026/05/15/trump-stock-trade-tech-oge.html",
+    sourceName: "CNBC",
   },
   {
-    name: "Ethereum",
-    symbol: "ETH",
-    type: "crypto",
-    cgId: "ethereum",
-    tagline: "Held by WLFI",
-    connection: "World Liberty Financial, the Trump-family venture, has publicly accumulated ETH.",
-    link: "https://www.coingecko.com/en/coins/ethereum",
+    name: "Advanced Micro Devices", symbol: "AMD", status: "portfolio",
+    tagline: "Reportedly 100%+ in profit",
+    connection: "Held in Trump's disclosed portfolio; reporting on the filings notes he's more than 100% in profit on AMD.",
+    source: "https://www.cnbc.com/2026/05/15/trump-stock-trade-tech-oge.html",
+    sourceName: "CNBC",
   },
   {
-    name: "Trump Media & Technology",
-    symbol: "DJT",
-    type: "stock",
-    cgId: null,
-    tagline: "He owns a big stake",
-    connection: "Parent of Truth Social. Trump holds a large personal stake; the ticker is literally his initials.",
-    link: "https://www.google.com/finance/quote/DJT:NASDAQ",
+    name: "Intel", symbol: "INTC", status: "portfolio",
+    tagline: "Reportedly 100%+ in profit",
+    connection: "Appears among Trump's disclosed holdings; reporting notes he's more than 100% in profit on Intel.",
+    source: "https://www.cnbc.com/2026/05/15/trump-stock-trade-tech-oge.html",
+    sourceName: "CNBC",
+  },
+  {
+    name: "Trump Media & Technology", symbol: "DJT", status: "praised",
+    tagline: "His own company",
+    connection: "Parent of Truth Social. Trump holds a large personal stake — the ticker is literally his initials.",
+    source: "https://www.google.com/finance/quote/DJT:NASDAQ",
+    sourceName: "Google Finance",
   },
 ];
 
-// CoinGecko ids we need to fetch
-const CG_IDS = [...new Set(ASSETS.filter(a => a.cgId).map(a => a.cgId))];
+const STATUS_LABEL = { praised: "Talked it up", portfolio: "In portfolio" };
 
 // --- Formatting helpers ---------------------------------------------------
 function fmtPrice(v) {
   if (v == null || isNaN(v)) return "—";
-  if (v >= 1000) return "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 });
-  if (v >= 1)    return "$" + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  if (v >= 0.01) return "$" + v.toFixed(4);
-  return "$" + v.toPrecision(3);
+  return "$" + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 function fmtChange(v) {
   if (v == null || isNaN(v)) return { text: "—", cls: "" };
@@ -88,52 +78,68 @@ function fmtChange(v) {
   return { text: sign + v.toFixed(2) + "%", cls: v >= 0 ? "up" : "down" };
 }
 
+// Build a tiny SVG sparkline from an array of numbers.
+function sparkline(series, up, w = 200, h = 48) {
+  if (!series || series.length < 2) {
+    return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"></svg>`;
+  }
+  const min = Math.min(...series), max = Math.max(...series);
+  const range = max - min || 1;
+  const stepX = w / (series.length - 1);
+  const pts = series.map((v, i) => {
+    const x = i * stepX;
+    const y = h - 4 - ((v - min) / range) * (h - 8); // 4px padding top/bottom
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  });
+  const stroke = up ? "var(--green)" : "var(--red)";
+  const fill = up ? "rgba(63,185,107,.16)" : "rgba(229,72,77,.16)";
+  const area = `0,${h} ${pts.join(" ")} ${w},${h}`;
+  return `
+    <svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+      <polygon points="${area}" fill="${fill}" stroke="none" />
+      <polyline points="${pts.join(" ")}" fill="none" stroke="${stroke}" stroke-width="2"
+        stroke-linejoin="round" stroke-linecap="round" />
+    </svg>`;
+}
+
 // --- Rendering ------------------------------------------------------------
-function renderMovers(prices) {
+function renderMovers(quotes) {
   const grid = document.getElementById("mover-grid");
-  const cryptos = ASSETS.filter(a => a.type === "crypto");
-  grid.innerHTML = cryptos.map(a => {
-    const p = prices[a.cgId] || {};
-    const price = fmtPrice(p.usd);
-    const ch = fmtChange(p.usd_24h_change);
+  grid.innerHTML = ASSETS.map(a => {
+    const q = quotes[a.symbol] || {};
+    const ch = fmtChange(q.changePct);
+    const up = (q.changePct ?? 0) >= 0;
     return `
       <article class="mover-card">
         <div class="mc-top">
           <span class="mc-name">${a.name}</span>
           <span class="mc-sym">${a.symbol}</span>
         </div>
-        <span class="mc-price">${price}</span>
-        <span class="mc-change ${ch.cls}">${ch.text} <small class="muted">24h</small></span>
+        <span class="mc-price">${fmtPrice(q.price)}</span>
+        <span class="mc-change ${ch.cls}">${ch.text} <small class="muted">today</small></span>
+        <div class="mc-graph">${sparkline(q.series, up)}</div>
         <span class="mc-tag">${a.tagline}</span>
       </article>`;
   }).join("");
 }
 
-function renderBoard(prices) {
+function renderBoard(quotes) {
   const body = document.getElementById("board-body");
   body.innerHTML = ASSETS.map(a => {
-    let priceHtml = '<span class="muted">see quote →</span>';
-    let changeHtml = '<span class="muted">—</span>';
-    if (a.type === "crypto") {
-      const p = prices[a.cgId] || {};
-      const ch = fmtChange(p.usd_24h_change);
-      priceHtml = `<span>${fmtPrice(p.usd)}</span>`;
-      changeHtml = `<span class="${ch.cls}">${ch.text}</span>`;
-    }
-    const typeClass = a.type === "crypto" ? "type-crypto" : "type-stock";
+    const q = quotes[a.symbol] || {};
+    const ch = fmtChange(q.changePct);
     return `
-      <tr data-type="${a.type}">
+      <tr data-status="${a.status}">
         <td>
           <div class="asset-cell">
             <span class="asset-name">${a.name}</span>
-            <span class="asset-sym">${a.symbol}</span>
+            <span class="asset-sym">${a.symbol} · <span class="status-badge status-${a.status}">${STATUS_LABEL[a.status]}</span></span>
           </div>
         </td>
-        <td><span class="type-badge ${typeClass}">${a.type}</span></td>
         <td class="connection"><span class="tagline">${a.tagline}</span>${a.connection}</td>
-        <td class="num price-cell">${priceHtml}</td>
-        <td class="num change-cell">${changeHtml}</td>
-        <td><a class="row-link" href="${a.link}" target="_blank" rel="noopener">Live ↗</a></td>
+        <td class="num price-cell">${fmtPrice(q.price)}</td>
+        <td class="num change-cell ${ch.cls}">${ch.text}</td>
+        <td><a class="row-link" href="${a.source}" target="_blank" rel="noopener">${a.sourceName} ↗</a></td>
       </tr>`;
   }).join("");
 }
@@ -147,7 +153,7 @@ function setupFilters() {
       chip.classList.add("is-active");
       const f = chip.dataset.filter;
       document.querySelectorAll("#board-body tr").forEach(tr => {
-        tr.style.display = (f === "all" || tr.dataset.type === f) ? "" : "none";
+        tr.style.display = (f === "all" || tr.dataset.status === f) ? "" : "none";
       });
     });
   });
@@ -160,26 +166,41 @@ function setStatus(state, msg) {
   el.innerHTML = `<span class="dot"></span> ${msg}`;
 }
 
+// Fetch one symbol's quote + intraday series from Yahoo via a CORS proxy.
+async function fetchQuote(symbol) {
+  const yahoo = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?range=1d&interval=15m`;
+  const url = "https://api.allorigins.win/raw?url=" + encodeURIComponent(yahoo);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const data = await res.json();
+  const r = data?.chart?.result?.[0];
+  if (!r) throw new Error("no result");
+  const meta = r.meta || {};
+  const price = meta.regularMarketPrice;
+  const prev = meta.chartPreviousClose ?? meta.previousClose;
+  const closes = (r.indicators?.quote?.[0]?.close || []).filter(v => v != null);
+  const changePct = (price != null && prev) ? ((price - prev) / prev) * 100 : null;
+  return { symbol, price, changePct, series: closes };
+}
+
 async function loadPrices() {
-  const url = "https://api.coingecko.com/api/v3/simple/price?ids=" +
-    encodeURIComponent(CG_IDS.join(",")) +
-    "&vs_currencies=usd&include_24hr_change=true";
-  try {
-    const res = await fetch(url, { headers: { accept: "application/json" } });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const data = await res.json();
-    renderMovers(data);
-    renderBoard(data);
-    const now = new Date();
+  const results = await Promise.allSettled(ASSETS.map(a => fetchQuote(a.symbol)));
+  const quotes = {};
+  let ok = 0;
+  results.forEach((r, i) => {
+    if (r.status === "fulfilled") { quotes[ASSETS[i].symbol] = r.value; ok++; }
+  });
+
+  renderMovers(quotes);
+  renderBoard(quotes);
+
+  const now = new Date();
+  if (ok > 0) {
     document.getElementById("last-updated").textContent = now.toLocaleString();
-    setStatus("ok", "Live prices loaded · " + now.toLocaleTimeString());
-  } catch (err) {
-    // Graceful fallback: still render the board (without live numbers)
-    renderMovers({});
-    renderBoard({});
+    setStatus("ok", `Live prices loaded (${ok}/${ASSETS.length}) · ${now.toLocaleTimeString()}`);
+  } else {
     document.getElementById("last-updated").textContent = "unavailable";
     setStatus("err", "Couldn't reach the price feed — showing the board without live numbers.");
-    console.error("Price fetch failed:", err);
   }
 }
 
@@ -203,6 +224,5 @@ document.addEventListener("DOMContentLoaded", () => {
   setupFilters();
   setupNavHighlight();
   loadPrices();
-  // refresh every 60s
-  setInterval(loadPrices, 60000);
+  setInterval(loadPrices, 60000); // refresh every 60s
 });

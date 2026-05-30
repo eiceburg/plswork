@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trump Trades — Stocks &amp; Crypto Tied to Donald Trump</title>
-  <meta name="description" content="A sleek live tracker of the stocks and cryptocurrencies publicly tied to Donald Trump — what he's launched, owns or promoted — with live crypto prices. Informational only, not financial advice." />
+  <title>Trump Trades — Stocks Trump Is Buying &amp; Talking About</title>
+  <meta name="description" content="A sleek live tracker of the stocks Donald Trump has recently bought and publicly talked up — Dell, Nvidia, Apple, Palantir and more — with live prices, 24h change and mini graphs. Informational only, not financial advice." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -18,8 +18,8 @@
       <span>Trump<span class="brand-accent">Trades</span></span>
     </a>
     <nav class="nav" id="nav">
-      <a href="#board">The Board</a>
       <a href="#movers">Live Movers</a>
+      <a href="#board">The Board</a>
       <a href="#about">About</a>
       <a href="#disclaimer">Disclaimer</a>
     </nav>
@@ -30,14 +30,14 @@
     <div class="hero-glow"></div>
     <div class="hero-inner">
       <p class="eyebrow">Live tracker · Updated automatically</p>
-      <h1>Stocks &amp; crypto<br />tied to <span class="gold">Donald&nbsp;Trump</span></h1>
+      <h1>Stocks <span class="gold">Trump</span> is buying<br />&amp; talking about</h1>
       <p class="hero-sub">
-        Every asset on this board has a documented, public connection to Trump —
-        something he <strong>launched</strong>, <strong>owns</strong>, or has
-        <strong>publicly promoted</strong>. Crypto prices update live. Track it all in one sleek place.
+        Companies Donald Trump has <strong>recently bought</strong> (per public disclosures)
+        and <strong>publicly talked up</strong> — like telling people to "go out and buy a Dell."
+        Live price, 24-hour change and a mini graph for each one.
       </p>
       <div class="hero-cta">
-        <a href="#board" class="btn btn-gold">View the board ↓</a>
+        <a href="#movers" class="btn btn-gold">See the movers ↓</a>
         <a href="#disclaimer" class="btn btn-ghost">Read the disclaimer</a>
       </div>
       <p class="hero-status" id="hero-status">
@@ -50,7 +50,7 @@
   <section class="movers" id="movers">
     <div class="section-head">
       <h2>Live movers</h2>
-      <p class="muted">Crypto prices &amp; 24h change, pulled live from CoinGecko. Last update: <span id="last-updated">—</span></p>
+      <p class="muted">Live price, today's change &amp; an intraday graph for each stock. Last update: <span id="last-updated">—</span></p>
     </div>
     <div class="mover-grid" id="mover-grid">
       <!-- cards injected by script.js -->
@@ -65,25 +65,24 @@
   <section class="board" id="board">
     <div class="section-head">
       <h2>The board</h2>
-      <p class="muted">Filter by type. Crypto rows show a live price; stocks link out to a live quote.</p>
+      <p class="muted">Every stock here is one Trump has bought and/or publicly praised. Filter by what he did.</p>
     </div>
 
     <div class="filters" id="filters">
       <button class="chip is-active" data-filter="all">All</button>
-      <button class="chip" data-filter="crypto">Crypto</button>
-      <button class="chip" data-filter="stock">Stocks</button>
+      <button class="chip" data-filter="praised">Publicly talked up</button>
+      <button class="chip" data-filter="portfolio">In his portfolio</button>
     </div>
 
     <div class="table-wrap">
       <table class="board-table" id="board-table">
         <thead>
           <tr>
-            <th>Asset</th>
-            <th>Type</th>
-            <th>The Trump connection</th>
+            <th>Stock</th>
+            <th>What Trump did</th>
             <th class="num">Live price</th>
             <th class="num">24h</th>
-            <th>Link</th>
+            <th>Source</th>
           </tr>
         </thead>
         <tbody id="board-body">
@@ -102,25 +101,25 @@
       <div class="about-card">
         <h3>What's on the board</h3>
         <p>
-          Assets with a <strong>documented, public</strong> link to Donald Trump or the Trump
-          family — coins he personally launched and promoted, the company he holds a large
-          stake in, family-backed crypto ventures, and assets he's publicly endorsed.
+          Stocks tied to Donald Trump by <strong>public financial disclosures</strong> (companies
+          he's recently bought) and his <strong>own public statements</strong> (companies he's
+          praised or told people to buy). Each entry links to the news source.
         </p>
       </div>
       <div class="about-card">
         <h3>How "live" works</h3>
         <p>
-          Crypto prices refresh straight from the public CoinGecko API every time you load the
-          page (and on a timer). Stocks don't have a free, key-less live feed that works in the
-          browser, so each stock links out to a live quote instead of showing a number that could go stale.
+          Prices, today's % change and the mini graphs are pulled live from a public market-data
+          feed every time you load the page and on a 60-second timer. If the feed can't be reached,
+          the board still renders — just without live numbers.
         </p>
       </div>
       <div class="about-card">
         <h3>What this is NOT</h3>
         <p>
-          This is <strong>not</strong> a feed of secret "buy now" tips, and it does not claim
-          Trump told anyone to buy anything. It's an informational dashboard of public
-          connections. See the disclaimer below.
+          This is <strong>not</strong> a "buy now" tip sheet and not a claim that Trump told
+          <em>you</em> to buy anything. Reporting notes these moves have raised conflict-of-interest
+          questions; his team says advisers manage the holdings. See the disclaimer.
         </p>
       </div>
     </div>
@@ -132,16 +131,16 @@
       <h2>⚠️ Disclaimer — please read</h2>
       <ul>
         <li><strong>Not financial advice.</strong> Nothing here is a recommendation to buy, sell, or hold any asset. Do your own research and consider a licensed advisor.</li>
-        <li><strong>Informational only.</strong> Entries describe publicly reported connections between assets and Donald Trump / the Trump family. They are not claims that he personally endorses any purchase by you.</li>
-        <li><strong>High risk.</strong> Memecoins and politically themed tokens are extremely volatile and can go to zero. Never invest money you can't afford to lose.</li>
-        <li><strong>Accuracy.</strong> Connections are based on public reporting and disclosures and may change or be incomplete. Verify independently before acting.</li>
-        <li><strong>Not affiliated.</strong> This site is an independent fan/info project and is not affiliated with, endorsed by, or connected to Donald Trump, the Trump Organization, Trump Media, or any associated entity.</li>
+        <li><strong>Informational only.</strong> Entries describe <em>publicly reported</em> stock purchases and public statements. They are not claims that Trump endorses any purchase by you, and past moves don't predict future prices.</li>
+        <li><strong>Context.</strong> News outlets have reported these trades raise conflict-of-interest questions; the Trump Organization has stated investment advisers have sole authority over the holdings. This site takes no position — it just aggregates public info.</li>
+        <li><strong>High risk.</strong> Stocks can fall as fast as they rise. Never invest money you can't afford to lose.</li>
+        <li><strong>Not affiliated.</strong> Independent informational project — not affiliated with, endorsed by, or connected to Donald Trump, the Trump Organization, or any associated entity.</li>
       </ul>
     </div>
   </section>
 
   <footer class="footer">
-    <p>TrumpTrades · Independent informational project · Live crypto data by <a href="https://www.coingecko.com" target="_blank" rel="noopener">CoinGecko</a>.</p>
+    <p>TrumpTrades · Independent informational project · Live market data via a public feed.</p>
     <p class="muted small">Not financial advice. Not affiliated with Donald Trump or any associated entity.</p>
   </footer>
 

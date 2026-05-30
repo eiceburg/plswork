@@ -106,7 +106,9 @@ section { max-width: var(--maxw); margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.
 .mover-card .mc-sym { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 .mover-card .mc-price { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 .mover-card .mc-change { font-size: .9rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.mover-card .mc-tag { font-size: .68rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-top: .15rem; }
+.mover-card .mc-tag { font-size: .7rem; color: var(--gold-soft); margin-top: .1rem; font-weight: 600; }
+.mover-card .mc-graph { margin: .35rem 0 .15rem; }
+.spark { display: block; width: 100%; height: 48px; }
 .up { color: var(--green); }
 .down { color: var(--red); }
 
@@ -140,9 +142,9 @@ section { max-width: var(--maxw); margin: 0 auto; padding: clamp(2.5rem, 6vw, 4.
 .asset-name { font-weight: 700; font-family: "Oswald"; font-size: 1.02rem; letter-spacing: .4px; }
 .asset-sym { font-size: .74rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
-.type-badge { display: inline-block; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: .25rem .6rem; border-radius: 999px; white-space: nowrap; }
-.type-crypto { background: rgba(79,124,255,.15); color: #9db4ff; border: 1px solid rgba(79,124,255,.35); }
-.type-stock { background: rgba(63,185,107,.13); color: #74e0a0; border: 1px solid rgba(63,185,107,.35); }
+.status-badge { display: inline-block; font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; padding: .12rem .5rem; border-radius: 999px; white-space: nowrap; }
+.status-praised { background: rgba(231,194,90,.16); color: var(--gold-soft); border: 1px solid rgba(231,194,90,.4); }
+.status-portfolio { background: rgba(79,124,255,.14); color: #9db4ff; border: 1px solid rgba(79,124,255,.35); }
 
 .connection { color: var(--muted); max-width: 360px; }
 .connection .tagline { display: block; color: var(--text); font-weight: 600; margin-bottom: .15rem; }
