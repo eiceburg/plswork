@@ -36,5 +36,9 @@ python3 -m http.server 8000
 ## Note
 
 This is an informational roundup. Prices are approximate and as of 2026, and picks
-are based on aggregated 2026 reviews and hands-on coverage. Not sponsored — there
-are no affiliate links.
+are based on aggregated 2026 reviews and hands-on coverage.
+
+The "Buy on Amazon" buttons are **Amazon Associates affiliate links** (search links
+carrying the store tag `roller022-20`). As an Amazon Associate the site earns from
+qualifying purchases, at no extra cost to the buyer. To change the tag, find-and-replace
+`roller022-20` in `index.html`.

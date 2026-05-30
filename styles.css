@@ -346,6 +346,34 @@ h1, h2, h3 { font-family: "Orbitron", "Inter", sans-serif; line-height: 1.15; ma
 .pros li::before { content: "✓"; position: absolute; left: 0; color: var(--pro); font-weight: 700; }
 .cons li::before { content: "✕"; position: absolute; left: 0; color: var(--con); font-weight: 700; }
 
+/* ===== Buy on Amazon button ===== */
+.btn-buy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+  padding: 0.85rem 1rem;
+  border-radius: 11px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  color: #1a1200;
+  background: linear-gradient(100deg, #ffd166, #ff9f1c);
+  border: 1px solid rgba(255, 159, 28, 0.55);
+  transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
+}
+
+.btn-buy::before { content: "🛒"; }
+
+.btn-buy:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 28px rgba(255, 159, 28, 0.28);
+}
+
+.btn-buy:active { transform: translateY(0); }
+
 /* ===== Guide ===== */
 .guide-grid {
   display: grid;
