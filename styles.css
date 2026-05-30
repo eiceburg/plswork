@@ -33,6 +33,8 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
+img, svg { max-width: 100%; }
+
 h1, h2, h3 { font-family: "Orbitron", "Inter", sans-serif; line-height: 1.15; margin: 0; }
 
 .grad {
@@ -474,14 +476,32 @@ h1, h2, h3 { font-family: "Orbitron", "Inter", sans-serif; line-height: 1.15; ma
 
 /* ===== Responsive ===== */
 @media (max-width: 720px) {
-  .nav { display: none; }
+  /* Topbar: brand stays on top, nav becomes a scrollable pill row beneath */
+  .topbar { flex-wrap: wrap; row-gap: 0.55rem; }
+  .nav {
+    order: 3;
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a { white-space: nowrap; flex: 0 0 auto; }
+
+  /* Keep anchor jumps clear of the taller (wrapped) sticky header */
+  html { scroll-padding-top: 112px; }
+  .card { scroll-margin-top: 112px; }
+
+  /* One card per row — prevents horizontal overflow on narrow phones */
+  .cards { grid-template-columns: 1fr; }
 
   /* Stacked comparison table */
   .compare, .compare thead, .compare tbody, .compare tr, .compare td { display: block; width: 100%; }
   .compare { min-width: 0; }
   .compare thead { display: none; }
   .compare tbody tr { padding: 0.6rem 0.9rem; }
-  .compare td { padding: 0.4rem 0; display: flex; justify-content: space-between; gap: 1rem; }
+  .compare td { padding: 0.4rem 0; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
   .compare td::before {
     content: attr(data-label);
     color: var(--muted);
@@ -490,6 +510,15 @@ h1, h2, h3 { font-family: "Orbitron", "Inter", sans-serif; line-height: 1.15; ma
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
+}
+
+@media (max-width: 460px) {
+  /* Full-width, easy-to-tap hero buttons */
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { width: 100%; }
+  .hero-stats { gap: 1.25rem 1.75rem; }
+  /* Pros/cons stack so text isn't cramped */
+  .proscons { grid-template-columns: 1fr; gap: 0.55rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
