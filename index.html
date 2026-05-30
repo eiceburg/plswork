@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Controller Tier 2026 — The Best Gaming Controllers</title>
+  <meta name="description" content="A 2026 roundup of the best gaming controllers across PC, PlayStation, Xbox, Switch and budget — with specs, pros, cons and verdicts." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===== Top nav ===== -->
+  <header class="topbar">
+    <a href="#top" class="brand">
+      <span class="brand-mark">▶</span>
+      <span>Controller<span class="brand-accent">Tier</span> 2026</span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#compare">Compare</a>
+      <a href="#picks">Top Picks</a>
+      <a href="#guide">Buying Guide</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="top">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <p class="eyebrow">Updated May 2026 · Tested &amp; Ranked</p>
+      <h1>The Best Gaming Controllers <span class="grad">of 2026</span></h1>
+      <p class="hero-sub">
+        It has never been a better time to buy a controller. Hall-effect sticks —
+        the drift-killing magnetic tech that used to be a premium luxury — are now
+        showing up in $45 pads. Here are the seven controllers worth your money this
+        year, sorted by what you actually need.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#picks">See the picks</a>
+        <a class="btn btn-ghost" href="#compare">Quick compare</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>7</strong><span>Top picks</span></div>
+        <div><strong>$45–$199</strong><span>Price range</span></div>
+        <div><strong>5</strong><span>Platforms</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <!-- ===== Comparison table ===== -->
+    <section class="section" id="compare">
+      <div class="section-head">
+        <h2>Quick Comparison</h2>
+        <p>Filter by platform, then tap a row to jump to the full review.</p>
+      </div>
+
+      <div class="filters" id="filters">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="pc">PC</button>
+        <button class="chip" data-filter="playstation">PlayStation</button>
+        <button class="chip" data-filter="xbox">Xbox</button>
+        <button class="chip" data-filter="switch">Switch</button>
+        <button class="chip" data-filter="budget">Budget</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Controller</th>
+              <th>Best for</th>
+              <th>Price</th>
+              <th>Standout feature</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-platforms="pc xbox" data-target="xbox-core">
+              <td data-label="Controller"><a href="#xbox-core">Xbox Wireless Controller</a></td>
+              <td data-label="Best for"><span class="badge b-overall">Best Overall</span></td>
+              <td data-label="Price">$60</td>
+              <td data-label="Standout feature">Works with everything</td>
+              <td data-label="Score"><span class="score">9.4</span></td>
+            </tr>
+            <tr data-platforms="pc xbox" data-target="elite-3">
+              <td data-label="Controller"><a href="#elite-3">Xbox Elite Series 3</a></td>
+              <td data-label="Best for"><span class="badge b-pc">Best for PC</span></td>
+              <td data-label="Price">$179</td>
+              <td data-label="Standout feature">Paddles + trigger stops</td>
+              <td data-label="Score"><span class="score">9.2</span></td>
+            </tr>
+            <tr data-platforms="playstation pc" data-target="dualsense-edge">
+              <td data-label="Controller"><a href="#dualsense-edge">DualSense Edge</a></td>
+              <td data-label="Best for"><span class="badge b-ps">Best for PlayStation</span></td>
+              <td data-label="Price">$199</td>
+              <td data-label="Standout feature">Adaptive triggers + haptics</td>
+              <td data-label="Score"><span class="score">9.0</span></td>
+            </tr>
+            <tr data-platforms="pc" data-target="wolverine-v3">
+              <td data-label="Controller"><a href="#wolverine-v3">Razer Wolverine V3 Pro</a></td>
+              <td data-label="Best for"><span class="badge b-pro">Best Pro / Esports</span></td>
+              <td data-label="Price">$200</td>
+              <td data-label="Standout feature">8,000 Hz polling</td>
+              <td data-label="Score"><span class="score">9.1</span></td>
+            </tr>
+            <tr data-platforms="pc switch" data-target="8bitdo-pro2" >
+              <td data-label="Controller"><a href="#8bitdo-pro2">8BitDo Pro 2</a></td>
+              <td data-label="Best for"><span class="badge b-multi">Best Multi-Platform</span></td>
+              <td data-label="Price">$70</td>
+              <td data-label="Standout feature">One-press platform switch</td>
+              <td data-label="Score"><span class="score">8.9</span></td>
+            </tr>
+            <tr data-platforms="pc switch" data-target="flydigi-vader5">
+              <td data-label="Controller"><a href="#flydigi-vader5">Flydigi Vader 5 Pro</a></td>
+              <td data-label="Best for"><span class="badge b-value">Best Value</span></td>
+              <td data-label="Price">$80</td>
+              <td data-label="Standout feature">Loaded with features</td>
+              <td data-label="Score"><span class="score">9.0</span></td>
+            </tr>
+            <tr data-platforms="pc budget" data-target="gamesir-kaleid">
+              <td data-label="Controller"><a href="#gamesir-kaleid">GameSir T4 Kaleid</a></td>
+              <td data-label="Best for"><span class="badge b-budget">Best Budget</span></td>
+              <td data-label="Price">$45</td>
+              <td data-label="Standout feature">Hall-effect for cheap</td>
+              <td data-label="Score"><span class="score">8.7</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== Picks ===== -->
+    <section class="section" id="picks">
+      <div class="section-head">
+        <h2>The Top Picks</h2>
+        <p>Seven controllers, seven different reasons to buy. Honest verdicts, no fluff.</p>
+      </div>
+
+      <div class="cards">
+
+        <!-- Xbox Core -->
+        <article class="card" id="xbox-core" data-platforms="pc xbox">
+          <div class="card-top">
+            <span class="badge b-overall">Best Overall</span>
+            <span class="card-score">9.4</span>
+          </div>
+          <h3>Xbox Wireless Controller</h3>
+          <p class="price">≈ $60</p>
+          <p class="verdict">
+            The default everyone measures against. It works almost everywhere with
+            zero friction, because the Xbox layout is the target developers build for.
+            Not the flashiest pad in 2026, but the safest buy for the most people.
+          </p>
+          <ul class="specs">
+            <li><span>Connection</span> Bluetooth / USB-C / Xbox wireless</li>
+            <li><span>Sticks</span> Potentiometer (classic)</li>
+            <li><span>Platforms</span> Xbox, PC, mobile, cloud</li>
+            <li><span>Battery</span> 2× AA (40 hrs)</li>
+          </ul>
+          <div class="proscons">
+            <ul class="pros">
+              <li>Flawless compatibility</li>
+              <li>Comfortable, proven shape</li>
+              <li>Great price &amp; color options</li>
+            </ul>
+            <ul class="cons">
+              <li>No Hall-effect sticks</li>
+              <li>AA batteries by default</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Elite 3 -->
+        <article class="card" id="elite-3" data-platforms="pc xbox">
+          <div class="card-top">
+            <span class="badge b-pc">Best for PC</span>
+            <span class="card-score">9.2</span>
+          </div>
+          <h3>Xbox Elite Series 3</h3>
+          <p class="price">≈ $179</p>
+          <p class="verdict">
+            The do-it-all enthusiast pad with native Windows support. Four rear
+            paddles, swappable sticks, adjustable trigger stops and a premium build
+            make it the PC controller to beat — if your wallet can take the hit.
+          </p>
+          <ul class="specs">
+            <li><span>Connection</span> Bluetooth / USB-C / wireless</li>
+            <li><span>Sticks</span> Adjustable-tension, swappable</li>
+            <li><span>Platforms</span> Xbox, PC</li>
+            <li><span>Extras</span> 4 paddles, trigger locks, profiles</li>
+          </ul>
+          <div class="proscons">
+            <ul class="pros">
+              <li>Tons of remapping &amp; profiles</li>
+              <li>Trigger stops for shooters</li>
+              <li>Premium materials</li>
+            </ul>
+            <ul class="cons">
+              <li>Expensive</li>
+              <li>Overkill for casual play</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- DualSense Edge -->
+        <article class="card" id="dualsense-edge" data-platforms="playstation pc">
+          <div class="card-top">
+            <span class="badge b-ps">Best for PlayStation</span>
+            <span class="card-score">9.0</span>
+          </div>
+          <h3>DualSense Edge</h3>
+          <p class="price">≈ $199</p>
+          <p class="verdict">
+            Nobody matches Sony's adaptive triggers and haptics — they make
+            supported games feel genuinely different. The Edge adds back buttons,
+            swappable sticks and on-the-fly profiles for serious PS5 players.
+          </p>
+          <ul class="specs">
+            <li><span>Connection</span> Bluetooth / USB-C</li>
+            <li><span>Sticks</span> Swappable modules (replaceable)</li>
+            <li><span>Platforms</span> PS5, PC</li>
+            <li><span>Extras</span> Adaptive triggers, haptics, paddles</li>
+          </ul>
+          <div class="proscons">
+            <ul class="pros">
+              <li>Best-in-class immersion features</li>
+              <li>Replaceable stick modules</li>
+              <li>Quick profile switching</li>
+            </ul>
+            <ul class="cons">
+              <li>Priciest mainstream pad</li>
+              <li>Battery life is short</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Wolverine V3 Pro -->
+        <article class="card" id="wolverine-v3" data-platforms="pc">
+          <div class="card-top">
+            <span class="badge b-pro">Best Pro / Esports</span>
+            <span class="card-score">9.1</span>
+          </div>
+          <h3>Razer Wolverine V3 Pro</h3>
+          <p class="price">≈ $200</p>
+          <p class="verdict">
+            Built for competition. An 8,000 Hz polling rate, mecha-tactile face
+            buttons and six extra inputs put it at the sharp end of the field. If
+            milliseconds and snappy clicks matter, this is the high-end pick.
+          </p>
+          <ul class="specs">
+            <li><span>Connection</span> 2.4GHz / USB-C</li>
+            <li><span>Sticks</span> Hall-effect (drift-free)</li>
+            <li><span>Platforms</span> Xbox, PC</li>
+            <li><span>Polling</span> Up to 8,000 Hz</li>
+          </ul>
+          <div class="proscons">
+            <ul class="pros">
+              <li>Ultra-low latency</li>
+              <li>Tactile, fast buttons</li>
+              <li>6 remappable extra inputs</li>
+            </ul>
+            <ul class="cons">
+              <li>Premium price</li>
+              <li>Stiff buttons aren't for everyone</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 8BitDo Pro 2 -->
+        <article class="card" id="8bitdo-pro2" data-platforms="pc switch">
+          <div class="card-top">
+            <span class="badge b-multi">Best Multi-Platform</span>
+            <span class="card-score">8.9</span>
+          </div>
+          <h3>8BitDo Pro 2</h3>
+          <p class="price">≈ $70</p>
+          <p class="verdict">
+            The Swiss-army pad. A single press flips it between Windows, Switch,
+            Steam Deck, macOS and mobile with no re-pairing. Deep software, paddles
+            and a retro feel make it the best companion for players with many devices.
+          </p>
+          <ul class="specs">
+            <li><span>Connection</span> Bluetooth / 2.4GHz / USB-C</li>
+            <li><span>Sticks</span> Standard (Hall-effect on newer revs)</li>
+            <li><span>Platforms</span> Switch, PC, Steam Deck, mobile</li>
+            <li><span>Extras</span> 2 paddles, profiles, app</li>
+          </ul>
+          <div class="proscons">
+            <ul class="pros">
+              <li>Instant platform switching</li>
+              <li>Powerful customization app</li>
+              <li>Great price for features</li>
+            </ul>
+            <ul class="cons">
+              <li>Smaller than full-size pads</li>
+              <li>No adaptive triggers</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Flydigi Vader 5 Pro -->
+        <article class="card" id="flydigi-vader5" data-platforms="pc switch">
+          <div class="card-top">
+            <span class="badge b-value">Best Value</span>
+            <span class="card-score">9.0</span>
+          </div>
+          <h3>Flydigi Vader 5 Pro</h3>
+          <p class="price">≈ $80</p>
+          <p class="verdict">
+            Punches well above its price. You get Hall-effect sticks and triggers,
+            low latency, extra back buttons and excellent durability for the cost of
+            a standard first-party pad. The best features-per-dollar in 2026.
+          </p>
+          <ul class="specs">
+            <li><span>Connection</span> 2.4GHz / Bluetooth / USB-C</li>
+            <li><span>Sticks</span> Hall-effect (drift-free)</li>
+            <li><span>Platforms</span> PC, Switch, mobile</li>
+            <li><span>Extras</span> Back buttons, motion, RGB</li>
+          </ul>
+          <div class="proscons">
+            <ul class="pros">
+              <li>Hall-effect sticks &amp; triggers</li>
+              <li>Loaded feature set</li>
+              <li>Tough, reliable build</li>
+            </ul>
+            <ul class="cons">
+              <li>Software has a learning curve</li>
+              <li>No native Xbox support</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- GameSir T4 Kaleid -->
+        <article class="card" id="gamesir-kaleid" data-platforms="pc budget">
+          <div class="card-top">
+            <span class="badge b-budget">Best Budget</span>
+            <span class="card-score">8.7</span>
+          </div>
+          <h3>GameSir T4 Kaleid</h3>
+          <p class="price">≈ $45</p>
+          <p class="verdict">
+            Proof that drift-free no longer means expensive. Hall-effect sticks,
+            Hall-effect triggers and 1,000 Hz polling for around $45 — a wired pad
+            that competes with controllers costing twice as much.
+          </p>
+          <ul class="specs">
+            <li><span>Connection</span> Wired USB-C</li>
+            <li><span>Sticks</span> Hall-effect (drift-free)</li>
+            <li><span>Platforms</span> PC, Switch, Android</li>
+            <li><span>Polling</span> 1,000 Hz</li>
+          </ul>
+          <div class="proscons">
+            <ul class="pros">
+              <li>Unbeatable price for Hall-effect</li>
+              <li>Crisp, transparent shell</li>
+              <li>Two back buttons</li>
+            </ul>
+            <ul class="cons">
+              <li>Wired only</li>
+              <li>No rumble immersion features</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===== Buying guide ===== -->
+    <section class="section" id="guide">
+      <div class="section-head">
+        <h2>2026 Buying Guide</h2>
+        <p>Four things that actually decide which controller is right for you.</p>
+      </div>
+      <div class="guide-grid">
+        <div class="guide-card">
+          <h3>🧲 Hall-effect vs. classic sticks</h3>
+          <p>
+            Classic potentiometer sticks wear down and "drift" after 6–12 months of
+            heavy use. Hall-effect sticks use magnets with no physical contact, so they
+            don't drift. In 2026 they're affordable — if a controller has them, that's a
+            big point in its favor.
+          </p>
+        </div>
+        <div class="guide-card">
+          <h3>🔌 Wired vs. wireless</h3>
+          <p>
+            Wireless is more convenient; wired (or a 2.4GHz dongle) gives the lowest,
+            most consistent latency for competitive play. Bluetooth is fine for couch
+            gaming but adds a little lag versus a dongle or cable.
+          </p>
+        </div>
+        <div class="guide-card">
+          <h3>🎮 Platform compatibility</h3>
+          <p>
+            Xbox pads "just work" on PC. PlayStation pads work great on PS5 and PC but
+            need a little setup elsewhere. Third-party pads from 8BitDo, Flydigi and
+            GameSir often support the most platforms — check before you buy.
+          </p>
+        </div>
+        <div class="guide-card">
+          <h3>⚡ Polling rate &amp; extras</h3>
+          <p>
+            Higher polling (1,000 Hz and up, even 8,000 Hz) means faster input reads —
+            mostly relevant for competitive players. Back paddles, trigger stops and
+            remappable profiles matter more for everyday feel.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section" id="faq">
+      <div class="section-head">
+        <h2>FAQ</h2>
+        <p>Quick answers to the questions we get most.</p>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>What's the best controller for most people in 2026?</summary>
+          <p>The Xbox Wireless Controller. It's affordable, comfortable and works with
+          virtually everything. Unless you have a specific need, start here.</p>
+        </details>
+        <details>
+          <summary>Is Hall-effect really worth it?</summary>
+          <p>Yes, if you can get it without overpaying. It eliminates stick drift, the
+          single most common reason controllers fail. In 2026 it's available as low as
+          ~$45, so it's an easy win.</p>
+        </details>
+        <details>
+          <summary>What's the best cheap controller?</summary>
+          <p>The GameSir T4 Kaleid at around $45 — Hall-effect sticks and triggers plus
+          1,000 Hz polling for the price of a basic pad.</p>
+        </details>
+        <details>
+          <summary>Best controller if I game on lots of devices?</summary>
+          <p>The 8BitDo Pro 2. One button swaps it between PC, Switch, Steam Deck and
+          mobile without re-pairing.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <p class="foot-title">Controller<span class="brand-accent">Tier</span> 2026</p>
+    <p class="disclaimer">
+      Informational roundup. Prices are approximate and as of 2026 and may vary by
+      region and retailer. Picks are based on aggregated 2026 reviews and hands-on
+      coverage from outlets including PC Gamer and Empire. Not sponsored — no
+      affiliate links.
+    </p>
+    <p class="copy">Built as a static site · © 2026</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
