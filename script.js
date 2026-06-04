@@ -6,13 +6,15 @@
   // Paste your conversion LABEL below — it's the part AFTER the slash in the
   // event snippet Google gives you, e.g. send_to: 'AW-18198960301/AbC-D_efG12'
   // means the label is "AbC-D_efG12". Until a label is set, tracking is off.
-  var GADS_CONVERSION_LABEL = ""; // <-- paste your conversion label here
+  var GADS_CONVERSION_LABEL = "J7H_COupo7YcEK2x-OVD";
 
   document.querySelectorAll(".btn-buy").forEach(function (btn) {
     btn.addEventListener("click", function () {
       if (typeof window.gtag !== "function" || !GADS_CONVERSION_LABEL) return;
       window.gtag("event", "conversion", {
         send_to: "AW-18198960301/" + GADS_CONVERSION_LABEL,
+        value: 1.0,
+        currency: "USD",
         // Which controller was clicked — handy in your Google Ads reports
         item: (btn.closest(".card") &&
                btn.closest(".card").querySelector("h3") &&
