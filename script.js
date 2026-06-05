@@ -11,10 +11,15 @@
   document.querySelectorAll(".btn-buy").forEach(function (btn) {
     btn.addEventListener("click", function () {
       if (typeof window.gtag !== "function" || !GADS_CONVERSION_LABEL) return;
+      // Unique per click. We have no real Amazon order ID (the purchase happens
+      // off-site), so this both clears Google's "missing transaction_id" warning
+      // and keeps each click counted as its own conversion.
+      var txnId = "buy-" + Date.now() + "-" + Math.floor(Math.random() * 1e6);
       window.gtag("event", "conversion", {
         send_to: "AW-18198960301/" + GADS_CONVERSION_LABEL,
         value: 1.0,
         currency: "USD",
+        transaction_id: txnId,
         // Which controller was clicked — handy in your Google Ads reports
         item: (btn.closest(".card") &&
                btn.closest(".card").querySelector("h3") &&
