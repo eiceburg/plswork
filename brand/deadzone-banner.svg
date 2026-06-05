@@ -1,0 +1,113 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440">
+  
+  <defs>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#FF2E63"/>
+      <stop offset="1"   stop-color="#16E0C0"/>
+    </linearGradient>
+    <radialGradient id="bgrad" cx="0.5" cy="0.42" r="0.75">
+      <stop offset="0"   stop-color="#1A2030"/>
+      <stop offset="0.6" stop-color="#0B0E14"/>
+      <stop offset="1"   stop-color="#05070B"/>
+    </radialGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#FF2E63" flood-opacity="0.5"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#16E0C0" flood-opacity="0.30"/>
+    </filter>
+    <filter id="blurbig" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+  </defs>
+  <rect width="2560" height="1440" fill="url(#bgrad)"/>
+
+  <!-- corner neon glows -->
+  <circle cx="320"  cy="300"  r="260" fill="#FF2E63" opacity="0.20" filter="url(#blurbig)"/>
+  <circle cx="2240" cy="1140" r="300" fill="#16E0C0"    opacity="0.18" filter="url(#blurbig)"/>
+
+  <!-- faint grid -->
+  <g stroke="#8A93A6" stroke-opacity="0.06" stroke-width="2">
+    <line x1="0" y1="0" x2="0" y2="1440"/><line x1="100" y1="0" x2="100" y2="1440"/><line x1="200" y1="0" x2="200" y2="1440"/><line x1="300" y1="0" x2="300" y2="1440"/><line x1="400" y1="0" x2="400" y2="1440"/><line x1="500" y1="0" x2="500" y2="1440"/><line x1="600" y1="0" x2="600" y2="1440"/><line x1="700" y1="0" x2="700" y2="1440"/><line x1="800" y1="0" x2="800" y2="1440"/><line x1="900" y1="0" x2="900" y2="1440"/><line x1="1000" y1="0" x2="1000" y2="1440"/><line x1="1100" y1="0" x2="1100" y2="1440"/><line x1="1200" y1="0" x2="1200" y2="1440"/><line x1="1300" y1="0" x2="1300" y2="1440"/><line x1="1400" y1="0" x2="1400" y2="1440"/><line x1="1500" y1="0" x2="1500" y2="1440"/><line x1="1600" y1="0" x2="1600" y2="1440"/><line x1="1700" y1="0" x2="1700" y2="1440"/><line x1="1800" y1="0" x2="1800" y2="1440"/><line x1="1900" y1="0" x2="1900" y2="1440"/><line x1="2000" y1="0" x2="2000" y2="1440"/><line x1="2100" y1="0" x2="2100" y2="1440"/><line x1="2200" y1="0" x2="2200" y2="1440"/><line x1="2300" y1="0" x2="2300" y2="1440"/><line x1="2400" y1="0" x2="2400" y2="1440"/><line x1="2500" y1="0" x2="2500" y2="1440"/><line x1="2600" y1="0" x2="2600" y2="1440"/>
+    <line x1="0" y1="0" x2="2560" y2="0"/><line x1="0" y1="100" x2="2560" y2="100"/><line x1="0" y1="200" x2="2560" y2="200"/><line x1="0" y1="300" x2="2560" y2="300"/><line x1="0" y1="400" x2="2560" y2="400"/><line x1="0" y1="500" x2="2560" y2="500"/><line x1="0" y1="600" x2="2560" y2="600"/><line x1="0" y1="700" x2="2560" y2="700"/><line x1="0" y1="800" x2="2560" y2="800"/><line x1="0" y1="900" x2="2560" y2="900"/><line x1="0" y1="1000" x2="2560" y2="1000"/><line x1="0" y1="1100" x2="2560" y2="1100"/><line x1="0" y1="1200" x2="2560" y2="1200"/><line x1="0" y1="1300" x2="2560" y2="1300"/><line x1="0" y1="1400" x2="2560" y2="1400"/>
+  </g>
+
+  <!-- oversized watermark emblem bleeding off right -->
+  <g transform="translate(2200,720) scale(3.0)">
+    
+  <g opacity="0.1">
+    <!-- shoulder bumpers -->
+    <rect x="-150" y="-108" width="78" height="30" rx="15" fill="#121620" stroke="#8A93A6" stroke-opacity="0.35" stroke-width="3"/>
+    <rect x="72"   y="-108" width="78" height="30" rx="15" fill="#121620" stroke="#8A93A6" stroke-opacity="0.35" stroke-width="3"/>
+    <!-- body -->
+    <rect x="-185" y="-88" width="370" height="176" rx="84" fill="#161B27" stroke="#8A93A6" stroke-width="11"/>
+    <!-- d-pad (left) -->
+    <g>
+      <rect x="-106" y="-31" width="22" height="62" rx="7" fill="#16E0C0"/>
+      <rect x="-126" y="-11" width="62" height="22" rx="7" fill="#16E0C0"/>
+    </g>
+    <!-- face buttons (right diamond) -->
+    <g>
+      <circle cx="95"  cy="-34" r="14" fill="#FF2E63"/>
+      <circle cx="125" cy="0"   r="14" fill="#16E0C0"/>
+      <circle cx="95"  cy="34"  r="14" fill="#F5F7FA"/>
+      <circle cx="65"  cy="0"   r="14" fill="#FFB020"/>
+    </g>
+    <!-- analog sticks: left stick is the "DEADZONE" ring -->
+    <g>
+      <circle cx="-52" cy="58" r="44" fill="none" stroke="#FF2E63" stroke-width="4" stroke-opacity="0.55" stroke-dasharray="6 9"/>
+      <circle cx="-52" cy="58" r="30" fill="#0B0E14" stroke="#FF2E63" stroke-width="5"/>
+      <circle cx="-52" cy="58" r="13" fill="#FF2E63"/>
+      <circle cx="52"  cy="58" r="30" fill="#0B0E14" stroke="#16E0C0" stroke-width="5"/>
+      <circle cx="52"  cy="58" r="13" fill="#16E0C0"/>
+    </g>
+  </g>
+  </g>
+
+  <!-- ===== SAFE AREA content (x 507..2053, y 508..931) ===== -->
+  <!-- crisp emblem on the right of the safe zone -->
+  <g transform="translate(1842,712) scale(1.0)">
+    
+  <g opacity="1" filter="url(#soft)">
+    <!-- shoulder bumpers -->
+    <rect x="-150" y="-108" width="78" height="30" rx="15" fill="#121620" stroke="#8A93A6" stroke-opacity="0.35" stroke-width="3"/>
+    <rect x="72"   y="-108" width="78" height="30" rx="15" fill="#121620" stroke="#8A93A6" stroke-opacity="0.35" stroke-width="3"/>
+    <!-- body -->
+    <rect x="-185" y="-88" width="370" height="176" rx="84" fill="#161B27" stroke="url(#neon)" stroke-width="11"/>
+    <!-- d-pad (left) -->
+    <g>
+      <rect x="-106" y="-31" width="22" height="62" rx="7" fill="#16E0C0"/>
+      <rect x="-126" y="-11" width="62" height="22" rx="7" fill="#16E0C0"/>
+    </g>
+    <!-- face buttons (right diamond) -->
+    <g>
+      <circle cx="95"  cy="-34" r="14" fill="#FF2E63"/>
+      <circle cx="125" cy="0"   r="14" fill="#16E0C0"/>
+      <circle cx="95"  cy="34"  r="14" fill="#F5F7FA"/>
+      <circle cx="65"  cy="0"   r="14" fill="#FFB020"/>
+    </g>
+    <!-- analog sticks: left stick is the "DEADZONE" ring -->
+    <g>
+      <circle cx="-52" cy="58" r="44" fill="none" stroke="#FF2E63" stroke-width="4" stroke-opacity="0.55" stroke-dasharray="6 9"/>
+      <circle cx="-52" cy="58" r="30" fill="#0B0E14" stroke="#FF2E63" stroke-width="5"/>
+      <circle cx="-52" cy="58" r="13" fill="#FF2E63"/>
+      <circle cx="52"  cy="58" r="30" fill="#0B0E14" stroke="#16E0C0" stroke-width="5"/>
+      <circle cx="52"  cy="58" r="13" fill="#16E0C0"/>
+    </g>
+  </g>
+  </g>
+
+  <!-- wordmark + tagline (left of safe zone) -->
+  <text x="548" y="694" font-family="DejaVu Sans, sans-serif" font-weight="bold"
+        font-size="165" letter-spacing="5" fill="#F5F7FA">DEADZONE</text>
+  <rect x="552" y="734" width="110" height="9" rx="4.5" fill="url(#neon)"/>
+  <text x="552" y="796" font-family="DejaVu Sans, sans-serif" font-size="44"
+        letter-spacing="7" fill="#8A93A6">EVERYTHING CONTROLLERS</text>
+
+  <!-- schedule pill -->
+  <g transform="translate(552,840)">
+    <rect x="0" y="0" width="470" height="60" rx="30" fill="#121620" stroke="url(#neon)" stroke-width="2.5"/>
+    <circle cx="36" cy="30" r="9" fill="#FF2E63"/>
+    <text x="64" y="40" font-family="DejaVu Sans, sans-serif" font-weight="bold"
+          font-size="28" letter-spacing="3" fill="#F5F7FA">NEW DROPS · MON · WED · FRI</text>
+  </g>
+</svg>

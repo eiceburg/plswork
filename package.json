@@ -1,0 +1,11 @@
+{
+  "name": "deadzone-brand-assets",
+  "private": true,
+  "description": "Generator for the DEADZONE YouTube channel avatar + banner (see brand/).",
+  "scripts": {
+    "build:brand": "node brand/build-assets.js"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
+}

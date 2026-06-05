@@ -1,0 +1,57 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="2048" viewBox="0 0 800 800">
+  
+  <defs>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#FF2E63"/>
+      <stop offset="1"   stop-color="#16E0C0"/>
+    </linearGradient>
+    <radialGradient id="bgrad" cx="0.5" cy="0.42" r="0.75">
+      <stop offset="0"   stop-color="#1A2030"/>
+      <stop offset="0.6" stop-color="#0B0E14"/>
+      <stop offset="1"   stop-color="#05070B"/>
+    </radialGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#FF2E63" flood-opacity="0.5"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#16E0C0" flood-opacity="0.30"/>
+    </filter>
+    <filter id="blurbig" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+  </defs>
+  <rect width="800" height="800" fill="url(#bgrad)"/>
+  <circle cx="400" cy="400" r="362" fill="none" stroke="url(#neon)" stroke-width="14" opacity="0.9"/>
+  <circle cx="400" cy="400" r="344" fill="none" stroke="#121620" stroke-width="4"/>
+  <g transform="translate(400,360) scale(1.16)">
+    
+  <g opacity="1" filter="url(#soft)">
+    <!-- shoulder bumpers -->
+    <rect x="-150" y="-108" width="78" height="30" rx="15" fill="#121620" stroke="#8A93A6" stroke-opacity="0.35" stroke-width="3"/>
+    <rect x="72"   y="-108" width="78" height="30" rx="15" fill="#121620" stroke="#8A93A6" stroke-opacity="0.35" stroke-width="3"/>
+    <!-- body -->
+    <rect x="-185" y="-88" width="370" height="176" rx="84" fill="#161B27" stroke="url(#neon)" stroke-width="11"/>
+    <!-- d-pad (left) -->
+    <g>
+      <rect x="-106" y="-31" width="22" height="62" rx="7" fill="#16E0C0"/>
+      <rect x="-126" y="-11" width="62" height="22" rx="7" fill="#16E0C0"/>
+    </g>
+    <!-- face buttons (right diamond) -->
+    <g>
+      <circle cx="95"  cy="-34" r="14" fill="#FF2E63"/>
+      <circle cx="125" cy="0"   r="14" fill="#16E0C0"/>
+      <circle cx="95"  cy="34"  r="14" fill="#F5F7FA"/>
+      <circle cx="65"  cy="0"   r="14" fill="#FFB020"/>
+    </g>
+    <!-- analog sticks: left stick is the "DEADZONE" ring -->
+    <g>
+      <circle cx="-52" cy="58" r="44" fill="none" stroke="#FF2E63" stroke-width="4" stroke-opacity="0.55" stroke-dasharray="6 9"/>
+      <circle cx="-52" cy="58" r="30" fill="#0B0E14" stroke="#FF2E63" stroke-width="5"/>
+      <circle cx="-52" cy="58" r="13" fill="#FF2E63"/>
+      <circle cx="52"  cy="58" r="30" fill="#0B0E14" stroke="#16E0C0" stroke-width="5"/>
+      <circle cx="52"  cy="58" r="13" fill="#16E0C0"/>
+    </g>
+  </g>
+  </g>
+  <text x="400" y="666" text-anchor="middle" font-family="DejaVu Sans, sans-serif"
+        font-weight="bold" font-size="74" letter-spacing="4" fill="#F5F7FA">DEADZONE</text>
+</svg>
