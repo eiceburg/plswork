@@ -8,9 +8,7 @@ gameplay clips on top of any scene if you want footage.
 Every video ends on a card pointing to your site, and every description below
 carries the link, so the channel funnels straight into your controller guide.
 
-> **Your link:** `https://eiceburg.github.io/plswork/`
-> (Turn it on once: repo → **Settings → Pages → Deploy from branch → main /root**.
-> Until then the end-card URL won't resolve.)
+> **Your link:** `https://bestcontrollers.netlify.app/` (live on Netlify).
 
 ---
 
@@ -29,7 +27,7 @@ carries the link, so the channel funnels straight into your controller guide.
 **Description:**
 ```
 $20 vs $200 controller, same game, same hands. Be honest — could you tell?
-Full 2026 controller breakdown (every budget): https://eiceburg.github.io/plswork/
+Full 2026 controller breakdown (every budget): https://bestcontrollers.netlify.app/
 #controller #gaming #ps5 #xbox #shorts
 ```
 
@@ -38,7 +36,7 @@ Full 2026 controller breakdown (every budget): https://eiceburg.github.io/plswor
 **Description:**
 ```
 The dead-zone setting nobody tells you about — lower it till the drift stops.
-More controller tips + the best pads of 2026: https://eiceburg.github.io/plswork/
+More controller tips + the best pads of 2026: https://bestcontrollers.netlify.app/
 #deadzone #aimassist #controllersettings #fps #shorts
 ```
 
@@ -47,7 +45,7 @@ More controller tips + the best pads of 2026: https://eiceburg.github.io/plswork
 **Description:**
 ```
 Don't bin your drifting controller — try this first. Works 9 times out of 10.
-Drift-proof controllers worth buying: https://eiceburg.github.io/plswork/
+Drift-proof controllers worth buying: https://bestcontrollers.netlify.app/
 #stickdrift #controllerrepair #ps5 #xbox #shorts
 ```
 
@@ -56,7 +54,7 @@ Drift-proof controllers worth buying: https://eiceburg.github.io/plswork/
 **Description:**
 ```
 Default settings are holding your aim back. Fix these 3 (most never touch #2).
-Best controllers to run these on: https://eiceburg.github.io/plswork/
+Best controllers to run these on: https://bestcontrollers.netlify.app/
 #controllersettings #fps #aim #gaming #shorts
 ```
 
@@ -65,7 +63,7 @@ Best controllers to run these on: https://eiceburg.github.io/plswork/
 **Description:**
 ```
 Everyone thinks pros use the Elite. They don't — here's the hall-effect truth.
-See the exact pads in our 2026 guide: https://eiceburg.github.io/plswork/
+See the exact pads in our 2026 guide: https://bestcontrollers.netlify.app/
 #procontroller #halleffect #xbox #gaming #shorts
 ```
 
@@ -74,7 +72,7 @@ See the exact pads in our 2026 guide: https://eiceburg.github.io/plswork/
 **Description:**
 ```
 Controller tier list — you're gonna disagree. Tell me I'm wrong 👇
-Full ranked list with specs + prices: https://eiceburg.github.io/plswork/
+Full ranked list with specs + prices: https://bestcontrollers.netlify.app/
 #tierlist #controller #ps5 #xbox #shorts
 ```
 
@@ -83,7 +81,7 @@ Full ranked list with specs + prices: https://eiceburg.github.io/plswork/
 **Description:**
 ```
 Magnets, not contact = zero drift, forever. Here's why it matters in 15 seconds.
-Every hall-effect pick for 2026: https://eiceburg.github.io/plswork/
+Every hall-effect pick for 2026: https://bestcontrollers.netlify.app/
 #halleffect #stickdrift #tech #gaming #shorts
 ```
 
@@ -92,7 +90,7 @@ Every hall-effect pick for 2026: https://eiceburg.github.io/plswork/
 **Description:**
 ```
 $30 in parts vs a $200 pro pad — worth it? You decide 👇
-Skip the mod, see the best pads instead: https://eiceburg.github.io/plswork/
+Skip the mod, see the best pads instead: https://bestcontrollers.netlify.app/
 #controllermod #diy #budget #gaming #shorts
 ```
 
@@ -101,7 +99,7 @@ Skip the mod, see the best pads instead: https://eiceburg.github.io/plswork/
 **Description:**
 ```
 Claw or paddles? One's objectively better. Settle it in the comments 👇
-Controllers with the best paddles: https://eiceburg.github.io/plswork/
+Controllers with the best paddles: https://bestcontrollers.netlify.app/
 #clawgrip #paddles #fps #controller #shorts
 ```
 
@@ -110,7 +108,7 @@ Controllers with the best paddles: https://eiceburg.github.io/plswork/
 **Description:**
 ```
 Before you spend on the Elite… watch this. Same paddles, no drift, half the price.
-The pad we'd buy instead: https://eiceburg.github.io/plswork/
+The pad we'd buy instead: https://bestcontrollers.netlify.app/
 #xboxelite #controller #buyingguide #gaming #shorts
 ```
 
@@ -124,6 +122,28 @@ hooks first so the channel opens hot:
 
 Cross-post each to **TikTok + Reels** same day. When one pops, make a Part 2 of
 that format within 48h — tier lists and "$X vs $Y" are endlessly repeatable.
+
+## Controller photos (real product pics in the videos)
+Every video is wired to drop in the actual controller photos from your site —
+the `$20 vs $200` cards, the "not the Elite" reveal, the tier-list thumbnails,
+and the showcase shots all use them. They appear automatically once the 9 images
+exist in **`brand/controllers/`** with these exact names:
+
+```
+xbox-core.jpg  xbox-elite3.jpg  dualsense.jpg  dualsense-edge.jpg
+victrix.jpg  razer-wolverine.jpg  8bitdo.jpg  flydigi-vader5.jpg  gamesir-t4.jpg
+```
+
+Two ways to get them in:
+1. **Auto:** on a normal network, run `node brand/fetch-controllers.js` — it pulls
+   all 9 from the same source the website uses. (This can't run inside Claude
+   Code's web sandbox, which blocks image hosts.)
+2. **By hand:** right-click → save each controller image from
+   `bestcontrollers.netlify.app`, rename to the list above, and drop them in
+   `brand/controllers/`.
+
+Then rebuild: `node brand/build-videos.js`. Missing an image? That video just
+falls back to its clean text version — nothing breaks.
 
 ## Regenerate / edit
 All videos are generated from code — tweak text/timing in

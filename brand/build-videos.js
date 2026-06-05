@@ -14,8 +14,19 @@ const ffmpeg = require('ffmpeg-static');
 const W = 1080, H = 1920, FPS = 30, XF = 0.45; // crossfade seconds
 const OUT = path.join(__dirname, 'video');
 const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'dz-'));
-const SITE = 'eiceburg.github.io/plswork';
+const SITE = 'bestcontrollers.netlify.app';
+const PHOTO_DIR = path.join(__dirname, 'controllers');
 fs.mkdirSync(OUT, { recursive: true });
+
+// returns a usable controller image path, or null (so slides fall back cleanly)
+function photoPath(name) {
+  if (!name) return null;
+  for (const ext of ['jpg', 'jpeg', 'png', 'webp']) {
+    const p = path.join(PHOTO_DIR, `${name}.${ext}`);
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
 
 const C = {
   bg0: '#0B0E14', bg1: '#121620', surface: '#161B27',
@@ -91,13 +102,17 @@ function wrap(svgInner) {
 }
 
 // ---------- slide types ----------
+function kickerPill(text, atY, color = C.magenta) {
+  return `<g transform="translate(540,${atY})"><rect x="-${text.length * 11 + 44}" y="-52" width="${text.length * 22 + 88}" height="80" rx="40" fill="${C.bg1}" stroke="url(#neon)" stroke-width="3"/>${block([[{ t: text, color }]], { x: 0, y: 8, size: 44, gap: 0, spacing: 3 })}</g>`;
+}
+
 function titleSlide({ kicker, lines, sub, kickerColor = C.magenta }) {
   const n = lines.length;
   const size = n >= 3 ? 118 : 132;
   const gap = size + 18;
   const startY = 960 - ((n - 1) * gap) / 2;
   let s = chip();
-  if (kicker) s += `<g transform="translate(540,540)"><rect x="-${kicker.length * 11 + 44}" y="-52" width="${kicker.length * 22 + 88}" height="80" rx="40" fill="${C.bg1}" stroke="url(#neon)" stroke-width="3"/>${block([[{ t: kicker, color: kickerColor }]], { x: 0, y: 8, size: 44, gap: 0, spacing: 3 })}</g>`;
+  if (kicker) s += kickerPill(kicker, 540, kickerColor);
   s += block(lines, { y: startY, size, gap });
   if (sub) s += block([[{ t: sub, color: C.muted }]], { y: 1500, size: 50, gap: 0, weight: 'normal', spacing: 1 });
   return wrap(s);
@@ -170,30 +185,94 @@ function endSlide() {
     <text x="540" y="1520" text-anchor="middle" font-family="${FONT}" font-weight="bold" font-size="48" fill="${C.magenta}">FOLLOW FOR MORE</text>`);
 }
 
+// ---------- photo slides (use real controller pics; fall back cleanly) ----------
+// Each returns { svg, photos:[{file,x,y,w,h}] } so the renderer can composite
+// the product images onto the white cards after rasterizing the SVG.
+
+function showcaseSlide({ kicker, title, sub, product, kickerColor = C.magenta }) {
+  const file = photoPath(product.name);
+  if (!file) return { svg: titleSlide({ kicker, lines: title, sub, kickerColor }), photos: [] };
+  const accent = product.accent || C.cyan;
+  const cw = 540, ch = 470, cyTop = 510, pad = 44, cx = 540;
+  const cardBot = cyTop + ch, tgap = 104;
+  const titleY = cardBot + 168;
+  const subY = titleY + (title.length - 1) * tgap + 92;
+  let s = chip();
+  if (kicker) s += kickerPill(kicker, 460, kickerColor);
+  s += `<rect x="${cx - cw / 2}" y="${cyTop}" width="${cw}" height="${ch}" rx="38" fill="#F3F5FA" stroke="${accent}" stroke-width="6"/>`;
+  s += `<text x="540" y="${cardBot + 66}" text-anchor="middle" font-family="${FONT}" font-weight="bold" font-size="52" fill="${accent}">${esc(product.label)}</text>`;
+  s += block(title.map((l) => (typeof l === 'string' ? [{ t: l }] : l)), { y: titleY, size: 86, gap: tgap });
+  if (sub) s += block([[{ t: sub, color: C.muted }]], { y: subY, size: 48, gap: 0, weight: 'normal' });
+  return { svg: wrap(s), photos: [{ file, x: cx - cw / 2 + pad, y: cyTop + pad, w: cw - pad * 2, h: ch - pad * 2 }] };
+}
+
+function vsPhotoSlide({ q, left, right }) {
+  const lf = photoPath(left.name), rf = photoPath(right.name);
+  if (!lf || !rf) return { svg: vsSlide({ q, left, right }), photos: [] };
+  const photos = [];
+  const card = (cx, color, top, bot, tag, file) => {
+    const cw = 460, ch = 460, cyTop = 700, pad = 36;
+    photos.push({ file, x: cx - cw / 2 + pad, y: cyTop + pad, w: cw - pad * 2, h: ch - pad * 2 });
+    return `<rect x="${cx - cw / 2}" y="${cyTop}" width="${cw}" height="${ch}" rx="36" fill="#F3F5FA" stroke="${color}" stroke-width="6"/>
+      <text x="${cx}" y="${cyTop + ch + 84}" text-anchor="middle" font-family="${FONT}" font-weight="bold" font-size="84" fill="${color}">${esc(top)}</text>
+      <text x="${cx}" y="${cyTop + ch + 140}" text-anchor="middle" font-family="${FONT}" font-size="40" fill="${C.white}">${esc(bot)}</text>
+      <g transform="translate(${cx},${cyTop + ch + 202})"><rect x="-135" y="-40" width="270" height="66" rx="33" fill="${color}" opacity=".16"/><text x="0" y="8" text-anchor="middle" font-family="${FONT}" font-weight="bold" font-size="36" fill="${color}">${esc(tag)}</text></g>`;
+  };
+  const svg = wrap(chip()
+    + block(q.map((l) => (typeof l === 'string' ? [{ t: l }] : l)), { y: 600, size: 92, gap: 104 })
+    + card(285, C.cyan, left.top, left.bot, left.tag, lf)
+    + card(795, C.magenta, right.top, right.bot, right.tag, rf)
+    + `<circle cx="540" cy="930" r="60" fill="${C.bg0}" stroke="url(#neon)" stroke-width="5"/>
+       <text x="540" y="950" text-anchor="middle" font-family="${FONT}" font-weight="bold" font-size="48" fill="${C.white}">VS</text>`
+    + block([[{ t: 'which one?  ↓', color: C.muted }]], { y: 1560, size: 50, gap: 0 }));
+  return { svg, photos };
+}
+
+function tierPhotoSlide({ rows, foot = 'agree?  ↓' }) {
+  const colors = { S: C.magenta, A: C.amber, B: C.cyan, C: C.muted, F: C.bad };
+  const photos = [];
+  let y = 600;
+  let s = chip() + block([[{ t: 'CONTROLLER ', color: C.white }, { t: 'TIER LIST', color: C.magenta }]], { y: 470, size: 84, gap: 0 });
+  for (const r of rows) {
+    const col = colors[r.tier] || C.muted;
+    const file = photoPath(r.name);
+    s += `<g transform="translate(0,${y})">
+      <rect x="90" y="0" width="150" height="150" rx="20" fill="${col}"/>
+      <text x="165" y="108" text-anchor="middle" font-family="${FONT}" font-weight="bold" font-size="110" fill="${C.bg0}">${r.tier}</text>
+      <rect x="260" y="0" width="730" height="150" rx="20" fill="${C.surface}" stroke="${col}" stroke-opacity=".5" stroke-width="3"/>`;
+    let textX = 290;
+    if (file) { s += `<rect x="280" y="16" width="118" height="118" rx="14" fill="#F3F5FA"/>`; photos.push({ file, x: 286, y: y + 22, w: 106, h: 106 }); textX = 430; }
+    s += `<text x="${textX}" y="95" font-family="${FONT}" font-weight="bold" font-size="${file ? 40 : 46}" fill="${C.white}">${esc(r.items)}</text></g>`;
+    y += 172;
+  }
+  s += block([[{ t: foot, color: C.muted }]], { y: 1560, size: 56, gap: 0 });
+  return { svg: wrap(s), photos };
+}
+
 // ---------- the 10 shorts ----------
 const VIDEOS = [
   { file: '01-20-vs-200', slides: [
     { svg: titleSlide({ kicker: 'BLIND TEST', lines: [[{ t: '$20', color: C.cyan }, { t: ' vs ', color: C.white }, { t: '$200', color: C.magenta }], 'controller'], sub: 'can you feel the difference?' }), d: 3 },
-    { svg: vsSlide({ q: ['same game.', 'same hands.'], left: { top: '$20', bot: 'budget pad', tag: 'CHEAP' }, right: { top: '$200', bot: 'pro pad', tag: 'PREMIUM' } }), d: 4 },
+    { ...vsPhotoSlide({ q: ['same game.', 'same hands.'], left: { top: '$20', bot: '8BitDo Pro 2', tag: 'CHEAP', name: '8bitdo' }, right: { top: '$200', bot: 'Xbox Elite 3', tag: 'PREMIUM', name: 'xbox-elite3' } }), d: 4 },
     { svg: factSlide({ top: 'honestly?', big: ['I COULD', 'BARELY', 'TELL.'], bigColor: C.white, sub: 'so where does the $180 go?  ↓' }), d: 4 },
     { svg: endSlide(), d: 3.5 },
   ] },
   { file: '02-deadzone-fix', slides: [
-    { svg: titleSlide({ kicker: 'AIM FIX', lines: ['your DEAD ZONE', [{ t: 'is wrong', color: C.magenta }]], sub: 'free 20-second fix' }), d: 3 },
+    { ...showcaseSlide({ kicker: 'AIM FIX', title: ['your DEAD ZONE', [{ t: 'is wrong', color: C.magenta }]], sub: 'free 20-second fix', product: { name: 'dualsense', label: 'DualSense', accent: C.cyan } }), d: 3.4 },
     { svg: pointSlide({ n: 1, title: ['open stick', 'SETTINGS'], desc: 'find "dead zone"', color: C.cyan }), d: 3 },
     { svg: pointSlide({ n: 2, title: ['lower it til', [{ t: 'drift STOPS', color: C.magenta }]], desc: 'not one click more', color: C.magenta }), d: 3.5 },
     { svg: factSlide({ top: 'result:', big: ['INSTANT', 'AIM'], bigColor: C.cyan, sub: 'try it tonight' }), d: 3 },
     { svg: endSlide(), d: 3.5 },
   ] },
   { file: '03-stick-drift', slides: [
-    { svg: titleSlide({ kicker: 'DON\'T TOSS IT', lines: ['fix STICK DRIFT', [{ t: 'for FREE', color: C.cyan }]], sub: '60 seconds, no tools' }), d: 3 },
+    { ...showcaseSlide({ kicker: 'DON\'T TOSS IT', title: ['fix STICK DRIFT', [{ t: 'for FREE', color: C.cyan }]], sub: '60 seconds, no tools', product: { name: 'xbox-core', label: 'Xbox Wireless', accent: C.cyan } }), d: 3.4 },
     { svg: pointSlide({ n: 1, total: 3, title: ['lift the', 'rubber boot'], desc: 'around the stick base', color: C.cyan }), d: 3 },
     { svg: pointSlide({ n: 2, total: 3, title: ['blast air +', [{ t: '99% alcohol', color: C.magenta }]], desc: 'then work the stick', color: C.magenta }), d: 3 },
     { svg: pointSlide({ n: 3, total: 3, title: ['let it dry,', 'test it'], desc: '9/10 times… fixed', color: C.good }), d: 3 },
     { svg: endSlide(), d: 3.5 },
   ] },
   { file: '04-pro-settings', slides: [
-    { svg: titleSlide({ kicker: 'STEAL THESE', lines: ['pros DON\'T use', [{ t: 'default settings', color: C.magenta }]], sub: 'change these 3' }), d: 3 },
+    { ...showcaseSlide({ kicker: 'STEAL THESE', title: ['pros DON\'T use', [{ t: 'default settings', color: C.magenta }]], sub: 'change these 3', product: { name: 'razer-wolverine', label: 'Razer Wolverine V3', accent: C.magenta } }), d: 3.4 },
     { svg: pointSlide({ n: 1, title: ['response curve', [{ t: '→ LINEAR', color: C.cyan }]], desc: '1:1 stick control', color: C.cyan }), d: 3 },
     { svg: pointSlide({ n: 2, title: ['dead zone', [{ t: '→ LOW', color: C.magenta }]], desc: 'most never touch this', color: C.magenta }), d: 3.2 },
     { svg: pointSlide({ n: 3, title: ['trigger sens', [{ t: '→ MAX', color: C.amber }]], desc: 'faster shots', color: C.amber }), d: 3 },
@@ -202,27 +281,27 @@ const VIDEOS = [
   { file: '05-pro-pad-reveal', slides: [
     { svg: titleSlide({ kicker: 'PLOT TWIST', lines: ['pros DON\'T use', [{ t: 'the Elite', color: C.magenta }]], sub: 'here\'s what they actually grab' }), d: 3.5 },
     { svg: factSlide({ top: 'they use', big: ['HALL', 'EFFECT', 'PADS'], bigColor: C.cyan, sub: 'no drift. ever.' }), d: 3.5 },
-    { svg: vsSlide({ q: ['same paddles.', 'half the price.'], left: { top: '½', bot: 'the price', tag: 'HALL FX' }, right: { top: '2×', bot: 'the lifespan', tag: 'NO DRIFT' } }), d: 4 },
+    { ...vsPhotoSlide({ q: ['same paddles.', 'half the price.'], left: { top: 'NOT THIS', bot: 'Xbox Elite 3', tag: '$$$', name: 'xbox-elite3' }, right: { top: 'THIS', bot: 'Flydigi Vader 5', tag: 'NO DRIFT', name: 'flydigi-vader5' } }), d: 4.5 },
     { svg: endSlide(), d: 3.5 },
   ] },
   { file: '06-tier-list', slides: [
     { svg: titleSlide({ kicker: 'YOU\'LL DISAGREE', lines: ['ranking EVERY', [{ t: 'controller', color: C.magenta }]], sub: 'trash → god' }), d: 3 },
-    { svg: tierSlide({ rows: [
-      { tier: 'S', items: 'Hall-effect pro pads' },
-      { tier: 'A', items: 'DualSense · Xbox Core' },
-      { tier: 'B', items: 'Switch Pro · 8BitDo' },
+    { ...tierPhotoSlide({ rows: [
+      { tier: 'S', items: 'Hall-effect pro pads', name: 'gamesir-t4' },
+      { tier: 'A', items: 'DualSense · Xbox Core', name: 'dualsense' },
+      { tier: 'B', items: 'Switch Pro · 8BitDo', name: '8bitdo' },
       { tier: 'F', items: 'that drifting OEM stick' },
     ] }), d: 5 },
     { svg: endSlide(), d: 3.5 },
   ] },
   { file: '07-hall-effect', slides: [
-    { svg: titleSlide({ kicker: 'NEVER DRIFT AGAIN', lines: ['why your NEXT pad', [{ t: 'needs hall effect', color: C.cyan }]], sub: '15-second explainer' }), d: 3.5 },
+    { ...showcaseSlide({ kicker: 'NEVER DRIFT AGAIN', title: ['why your NEXT pad', [{ t: 'needs hall effect', color: C.cyan }]], sub: '15-second explainer', product: { name: 'gamesir-t4', label: 'GameSir T4 Kaleid', accent: C.cyan } }), d: 3.8 },
     { svg: factSlide({ top: 'old sticks =', big: ['CONTACT', '→ WEAR', '→ DRIFT'], bigColor: C.bad, sub: 'they rub themselves to death' }), d: 4 },
     { svg: factSlide({ top: 'hall effect =', big: ['MAGNETS,', 'NO TOUCH'], bigColor: C.cyan, sub: '= zero drift, forever' }), d: 3.5 },
     { svg: endSlide(), d: 3.5 },
   ] },
   { file: '08-30-dollar-mod', slides: [
-    { svg: titleSlide({ kicker: 'PROJECT', lines: [[{ t: '$30', color: C.cyan }, { t: ' pad to beat', color: C.white }], [{ t: 'a $200 one', color: C.magenta }]], sub: 'can we mod it?' }), d: 3.5 },
+    { ...showcaseSlide({ kicker: 'PROJECT', title: [[{ t: '$30', color: C.cyan }, { t: ' pad vs', color: C.white }], [{ t: 'a $200 one', color: C.magenta }]], sub: 'can we mod it?', product: { name: '8bitdo', label: '8BitDo Pro 2 — $30 base', accent: C.cyan } }), d: 3.8 },
     { svg: pointSlide({ n: 1, total: 3, title: ['grip tape +', 'new sticks'], desc: 'instant pro feel', color: C.cyan }), d: 3 },
     { svg: pointSlide({ n: 2, total: 3, title: ['trigger stops', '+ paddles'], desc: 'snappier, faster', color: C.magenta }), d: 3 },
     { svg: factSlide({ top: 'head to head:', big: ['$30 IN', 'PARTS…', 'WORTH IT'], bigColor: C.good, sub: 'would you try it?  ↓' }), d: 3.5 },
@@ -230,20 +309,36 @@ const VIDEOS = [
   ] },
   { file: '09-claw-vs-paddles', slides: [
     { svg: titleSlide({ kicker: 'SETTLE THIS', lines: ['claw grip', [{ t: 'vs paddles', color: C.magenta }]], sub: 'one is better. fight.' }), d: 3 },
-    { svg: vsSlide({ q: ['which actually', 'wins?'], left: { top: 'CLAW', bot: 'no extra gear', tag: 'FREE' }, right: { top: 'PADS', bot: 'never leave sticks', tag: 'PADDLES' } }), d: 4.5 },
+    { ...vsPhotoSlide({ q: ['which actually', 'wins?'], left: { top: 'CLAW', bot: 'DualSense', tag: 'FREE', name: 'dualsense' }, right: { top: 'PADDLES', bot: 'Xbox Elite 3', tag: 'PRO', name: 'xbox-elite3' } }), d: 4.5 },
     { svg: endSlide(), d: 3.5 },
   ] },
   { file: '10-stop-buying-elite', slides: [
     { svg: titleSlide({ kicker: 'BEFORE YOU BUY', lines: ['STOP buying', [{ t: 'the Elite', color: C.magenta }]], sub: 'get this instead' }), d: 3.5 },
     { svg: pointSlide({ n: 1, title: ['it still', [{ t: 'DRIFTS', color: C.bad }]], desc: 'premium price, same sticks', color: C.bad }), d: 3 },
-    { svg: factSlide({ top: 'instead get', big: ['HALL FX', '½ PRICE'], bigColor: C.cyan, sub: 'same paddles, no drift' }), d: 3.5 },
+    { ...vsPhotoSlide({ q: ['Elite?', 'or this?'], left: { top: 'DON\'T', bot: 'Xbox Elite 3', tag: '$$$', name: 'xbox-elite3' }, right: { top: 'GET THIS', bot: 'GameSir T4', tag: '½ PRICE', name: 'gamesir-t4' } }), d: 4 },
     { svg: endSlide(), d: 3.5 },
   ] },
 ];
 
 // ---------- render + encode ----------
-async function renderPNG(svg, file) {
-  await sharp(Buffer.from(svg)).png().toFile(file);
+// rasterize a slide and composite any controller photos onto its white cards
+async function renderSlide(slide, file) {
+  const photos = slide.photos || [];
+  const base = await sharp(Buffer.from(slide.svg)).png().toBuffer();
+  if (!photos.length) { await sharp(base).toFile(file); return; }
+  const comps = [];
+  for (const ph of photos) {
+    const buf = await sharp(ph.file)
+      .resize({ width: Math.round(ph.w), height: Math.round(ph.h), fit: 'inside' })
+      .toBuffer();
+    const m = await sharp(buf).metadata();
+    comps.push({
+      input: buf,
+      left: Math.round(ph.x + (ph.w - m.width) / 2),
+      top: Math.round(ph.y + (ph.h - m.height) / 2),
+    });
+  }
+  await sharp(base).composite(comps).png().toFile(file);
 }
 
 function encode(frames, outFile) {
@@ -275,7 +370,7 @@ async function main() {
     const frames = [];
     for (let i = 0; i < v.slides.length; i++) {
       const png = path.join(TMP, `${v.file}-${i}.png`);
-      await renderPNG(v.slides[i].svg, png);
+      await renderSlide(v.slides[i], png);
       frames.push({ png, d: v.slides[i].d });
     }
     const out = path.join(OUT, `${v.file}.mp4`);
